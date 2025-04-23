@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Inviter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Login -->
+  <div id="loginSection">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="loginError"></p>
+  </div>
+
+  <!-- Aplikasi -->
+  <div id="mainApp" style="display: none;">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+    <h2>Input Data</h2>
+    <form id="dataForm">
+      <input type="text" id="nama" placeholder="Nama" required>
+      <input type="text" id="inviter" placeholder="Inviter" required>
+      <button type="submit">Tambah</button>
+    </form>
+
+    <h3>Rekap Inviter</h3>
+    <ul id="rekapList"></ul>
+
+    <h3>Data Tersimpan</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Inviter</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable"></tbody>
+    </table>
+
+  </div>
+
+  <script>
+    let dataTersimpan = JSON.parse(localStorage.getItem("dataTersimpan")) || [];
+    let editIndex = null; // Untuk menyimpan index data yang sedang diedit
+
+    function simpanData() {
+      localStorage.setItem("dataTersimpan", JSON.stringify(dataTersimpan));
+    }
+
+    function tampilkanData() {
+      const tbody = document.getElementById("dataTable");
+      tbody.innerHTML = "";
+      dataTersimpan.forEach((item, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${item.nama}</td>
+            <td>${item.inviter}</td>
+            <td class="aksi">
+              <button class="edit-btn" onclick="editData(${index})">Edit</button>
+              <button class="hapus-btn" onclick="hapusData(${index})">Hapus</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    function tampilkanRekap() {
+      const rekap = {};
+      dataTersimpan.forEach(item => {
+        rekap[item.inviter] = (rekap[item.inviter] || 0) + 1;
+      });
+
+      const list = document.getElementById("rekapList");
+      list.innerHTML = "";
+      for (let inviter in rekap) {
+        list.innerHTML += `<li>${inviter}: ${rekap[inviter]} orang</li>`;
+      }
+    }
+
+    document.getElementById("dataForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nama = document.getElementById("nama").value.trim();
+      const inviter = document.getElementById("inviter").value.trim();
+
+      if (editIndex !== null) { // Kalau sedang edit data
+        dataTersimpan[editIndex] = { nama, inviter };
+        editIndex = null; // Reset index setelah edit
+      } else {
+        if (dataTersimpan.some(item => item.nama.toLowerCase() === nama.toLowerCase())) {
+          alert("Nama sudah terdaftar!");
+          return;
+        }
+        dataTersimpan.push({ nama, inviter });
+      }
+
+      simpanData();
+      tampilkanData();
+      tampilkanRekap();
+      this.reset();
+    });
+
+    function hapusData(index) {
+      if (confirm("Hapus data ini?")) {
+        dataTersimpan.splice(index, 1);
+        simpanData();
+        tampilkanData();
+        tampilkanRekap();
+      }
+    }
+
+    function editData(index) {
+      const item = dataTersimpan[index];
+      document.getElementById("nama").value = item.nama;
+      document.getElementById("inviter").value = item.inviter;
+      editIndex = index; // Set index saat ini untuk edit
+    }
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user === "atming" && pass === "adaatminjir") {
+        localStorage.setItem("loggedIn", "true");
+        showApp();
+      } else {
+        document.getElementById("loginError").textContent = "Username atau password salah!";
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      location.reload();
+    }
+
+    function showApp() {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("mainApp").style.display = "block";
+      tampilkanData();
+      tampilkanRekap();
+    }
+
+    window.onload = () => {
+      if (localStorage.getItem("loggedIn") === "true") {
+        showApp();
+      }
+    };
+  </script>
+
+</body>
+</html>

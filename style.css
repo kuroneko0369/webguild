@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #loginSection,
+  #mainApp {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  
+  h2, h3 {
+    text-align: center;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .logout-btn {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 8px 20px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  #loginError {
+    margin-top: 10px;
+    text-align: center;
+    color: red;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  ul#rekapList {
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+  
+  .aksi {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .edit-btn {
+    background-color: #3498db; /* Biru */
+    color: white;
+    border-radius: 6px;
+    padding: 5px 10px;
+  }
+  
+  .edit-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .hapus-btn {
+    background-color: #e74c3c; /* Merah */
+    color: white;
+    border-radius: 6px;
+    padding: 5px 10px;
+  }
+  
+  .hapus-btn:hover {
+    background-color: #c0392b;
+  }
+  
